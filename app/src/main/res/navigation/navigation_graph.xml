@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/moviesListFragment">
+
+    <fragment
+        android:id="@+id/moviesListFragment"
+        android:name="com.example.mysecondapp.MoviesListFragment"
+        android:label="My Second App"
+        tools:layout="@layout/fragment_movies_list">
+
+        <action
+            android:id="@+id/action_moviesListFragment_to_movieDetailsFragment"
+            app:destination="@id/movieDetailsFragment"
+            app:popUpTo="@id/moviesListFragment"
+            app:popUpToInclusive="true">
+
+            <argument
+                android:name="title"
+                app:argType="string" />
+
+            <argument
+                android:name="imageUrl"
+                app:argType="string" />
+
+            <argument
+                android:name="description"
+                app:argType="string" />
+        </action>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/movieDetailsFragment"
+        android:name="com.example.mysecondapp.MovieDetailsFragment"
+        android:label="Movie Details"
+        tools:layout="@layout/fragment_movie_details">
+
+        <argument
+            android:name="title"
+            app:argType="string" />
+
+        <argument
+            android:name="imageUrl"
+            app:argType="string" />
+
+        <argument
+            android:name="description"
+            app:argType="string" />
+
+    </fragment>
+
+</navigation>
