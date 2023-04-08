@@ -4,48 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import android.os.Parcel
-import android.os.Parcelable
-
-data class Movie(
-    val title: String,
-    val imageUrl: String,
-    val description: String
-) : Parcelable {
-    constructor(parcel: Parcel) : this(
-        parcel.readString()!!,
-        parcel.readString()!!,
-        parcel.readString()!!
-    )
-
-    override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeString(title)
-        parcel.writeString(imageUrl)
-        parcel.writeString(description)
-    }
-
-    override fun describeContents(): Int {
-        return 0
-    }
-
-    companion object CREATOR : Parcelable.Creator<Movie> {
-        override fun createFromParcel(parcel: Parcel): Movie {
-            return Movie(parcel)
-        }
-
-        override fun newArray(size: Int): Array<Movie?> {
-            return arrayOfNulls(size)
-        }
-    }
-}
-
 class MoviesListFragment : Fragment() {
 
     private lateinit var recyclerView: RecyclerView
@@ -113,55 +75,6 @@ class MoviesListFragment : Fragment() {
             findNavController().navigate(action)
 
 
-        }
-    }
-
-    private inner class MoviesListAdapter(
-        private val movies: List<Movie>,
-        private val onMovieClick: (Movie) -> Unit
-    ) : RecyclerView.Adapter<MoviesListAdapter.ViewHolder>() {
-
-        inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-            val titleTextView: TextView = itemView.findViewById(R.id.movie_title_textview)
-            val descriptionTextView: TextView =
-                itemView.findViewById(R.id.movie_description_textview)
-            val imageView: ImageView = itemView.findViewById(R.id.movie_imageview)
-
-            init {
-                itemView.setOnClickListener {
-                    val position = adapterPosition
-                    if (position != RecyclerView.NO_POSITION) {
-                        val movie = movies[position]
-                        val action = MoviesListFragmentDirections.actionMoviesListFragmentToMovieDetailsFragment(
-                            movie.title,
-                            movie.imageUrl,
-                            movie.description
-                        )
-                        findNavController().navigate(action)
-                    }
-                }
-            }
-        }
-
-
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-            val itemView =
-                LayoutInflater.from(parent.context).inflate(R.layout.list_item_movie, parent, false)
-            return ViewHolder(itemView)
-        }
-
-        override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-            val movie = movies[position]
-            holder.titleTextView.text = movie.title
-            holder.descriptionTextView.text = movie.description
-            Glide.with(holder.itemView.context)
-                .load(movie.imageUrl)
-                .into(holder.imageView)
-        }
-
-
-        override fun getItemCount(): Int {
-            return movies.size
         }
     }
 }
